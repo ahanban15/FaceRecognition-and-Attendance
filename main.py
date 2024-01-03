@@ -27,6 +27,11 @@ print(len(imgModeList))
 
 # *********************STEP 3: ENCODING GENERATOR************************
 
+
+
+
+
+
 # final call to camera run
 while True:
     success, img = cap.read()
