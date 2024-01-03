@@ -2,8 +2,11 @@
 import os
 import pickle
 
+import bbox
 import cv2
+import cvzone
 import face_recognition
+import numpy as np
 
 # Open the webcam (the default camera)
 cap = cv2.VideoCapture(0)  # 0 indicates the default camera
@@ -52,8 +55,22 @@ while True:
     for encodeFace, faceLoc in zip(encodeCurFrame, faceCurFrame):
         matches = face_recognition.compare_faces(encodeListKnown, encodeFace)
         faceDis = face_recognition.face_distance(encodeListKnown, encodeFace)
-        print(matches)
-        print(faceDis)
+        # print(matches)
+        # print(faceDis)
+
+        # to get the min distance wala index
+        matchIndex = np.argmin(faceDis)
+
+        # if matches[matchIndex]:
+            # print("Known face detected")
+            # print(studentIDs[matchIndex])
+
+        if matches[matchIndex]:
+    #         create a rect box
+            y1, x2, y2, x1 = faceLoc
+            y1, x2, y2, x1 = 4*y1, 4*x2, 4*y2, 4*x1
+            bbox = 55+x1, 162+y1, x2-x1, y2-y1
+            cvzone.cornerRect(imgBackground, bbox, rt=0)
 
     imgBackground[162:162 + 480, 55:55 + 640] = img
     imgBackground[44:44 + 633, 808:808 + 414] = imgModeList[3]
